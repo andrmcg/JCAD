@@ -3,6 +3,15 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+//  To use the kotlin compiler 2.0
+/*kotlin{
+    sourceSets.all{
+        languageSettings{
+            languageVersion = "2.0"
+        }
+    }
+}*/
+
 android {
     namespace 'com.example.basicstatecodelab'
     compileSdk 33
