@@ -44,9 +44,14 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Spa
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -183,11 +188,13 @@ fun HomeSection(
     modifier: Modifier = Modifier, content: @Composable () -> Unit
 ) {
     Column(modifier) {
-        Text(text = stringResource(id = title).uppercase(Locale.getDefault()),
+        Text(
+            text = stringResource(id = title).uppercase(Locale.getDefault()),
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier
                 .paddingFromBaseline(top = 40.dp, bottom = 8.dp)
-                .padding(horizontal = 16.dp))
+                .padding(horizontal = 16.dp)
+        )
         content()
     }
 }
@@ -195,7 +202,11 @@ fun HomeSection(
 // Step: Home screen - Scrolling
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
-    Column(modifier.verticalScroll(rememberScrollState()).padding(vertical = 16.dp)) {
+    Column(
+        modifier
+            .verticalScroll(rememberScrollState())
+            .padding(vertical = 16.dp)
+    ) {
         Spacer(modifier = Modifier.height(16.dp))
         SearchBar(Modifier.padding(horizontal = 16.dp))
         HomeSection(title = R.string.align_your_body) {
@@ -211,13 +222,29 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 // Step: Bottom navigation - Material
 @Composable
 private fun SootheBottomNavigation(modifier: Modifier = Modifier) {
-    // Implement composable here
+
+    NavigationBar(modifier, containerColor = MaterialTheme.colorScheme.background) {
+        NavigationBarItem(selected = true, onClick = { /*TODO*/ }, icon = {
+            Icon(imageVector = Icons.Filled.Spa, contentDescription = null)
+        }, label = {
+            Text(text = stringResource(id = R.string.bottom_navigation_home))
+        })
+
+        NavigationBarItem(selected = false, onClick = { /*TODO*/ }, icon = {
+            Icon(imageVector = Icons.Filled.AccountCircle, contentDescription = null)
+        }, label = {
+            Text(text = stringResource(id = R.string.bottom_navigation_profile))
+        })
+    }
+
 }
 
 // Step: MySoothe App - Scaffold
 @Composable
 fun MySootheApp() {
-    // Implement composable here
+    Scaffold(bottomBar = { SootheBottomNavigation() }) { padding ->
+        HomeScreen(Modifier.padding(padding))
+    }
 }
 
 private val alignYourBodyData = listOf(
