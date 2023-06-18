@@ -1,5 +1,6 @@
 package com.example.basicstatecodelab
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -44,14 +45,14 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    HelloScreen()
+                    WellnessScreen()
                 }
             }
         }
     }
 }
 
-class HelloViewModel:ViewModel(){
+/*class HelloViewModel:ViewModel(){
     private val _name = MutableLiveData("")
     val name = _name
 
@@ -76,9 +77,8 @@ fun HelloContent(name:String,onNameChange:(String) -> Unit){
         OutlinedTextField(value = name, onValueChange = onNameChange,
             label = { Text(text = "Name")})
     }
-}
+}*/
 
-/*
 @Composable
 fun StatelessCounter(modifier: Modifier = Modifier, count:Int, onIncrement:() -> Unit) {
     Column() {
@@ -160,12 +160,12 @@ fun WellnessScreenPreview() {
     BasicStateCodelabTheme() {
         WellnessScreen()
     }
-}*/
-
-@Preview(showBackground = true)
+}
+/*@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, name = "night mode")
+@Preview(showBackground = true, name = "day mode")
 @Composable
 fun HelloScreenPreview(){
     BasicStateCodelabTheme {
         HelloScreen()
     }
-}
+}*/

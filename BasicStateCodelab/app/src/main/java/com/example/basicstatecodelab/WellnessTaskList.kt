@@ -7,7 +7,6 @@ import androidx.compose.ui.Modifier
 
 
 
-/*
 @Composable
 fun WellnessTasksList(modifier: Modifier = Modifier, list: List<WellnessTask>, onCloseTask: (WellnessTask) -> Unit){
     LazyColumn(modifier = modifier){
@@ -15,4 +14,4 @@ fun WellnessTasksList(modifier: Modifier = Modifier, list: List<WellnessTask>, o
             WellnessTaskItem(taskName = task.label, onClose = {onCloseTask(task)})
         }
     }
-}*/
+}
