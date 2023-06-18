@@ -3,7 +3,6 @@ package com.example.basicstatecodelab
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,20 +14,24 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.basicstatecodelab.ui.theme.BasicStateCodelabTheme
 
 class MainActivity : ComponentActivity() {
@@ -41,13 +44,41 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    WellnessScreen()
+                    HelloScreen()
                 }
             }
         }
     }
 }
 
+class HelloViewModel:ViewModel(){
+    private val _name = MutableLiveData("")
+    val name = _name
+
+    fun onNamechange(newName:String){
+        name.value = newName
+    }
+}
+
+@Composable
+fun HelloScreen(helloViewModel:HelloViewModel = viewModel()){
+    val name by helloViewModel.name.observeAsState("")
+
+    HelloContent(name, onNameChange = {helloViewModel.onNamechange(it)})
+}
+
+@Composable
+fun HelloContent(name:String,onNameChange:(String) -> Unit){
+    Column(modifier = Modifier.padding(16.dp)) {
+        if (name.isNotEmpty()) {
+            Text(text = "Hello $name!")
+        }
+        OutlinedTextField(value = name, onValueChange = onNameChange,
+            label = { Text(text = "Name")})
+    }
+}
+
+/*
 @Composable
 fun StatelessCounter(modifier: Modifier = Modifier, count:Int, onIncrement:() -> Unit) {
     Column() {
@@ -68,11 +99,13 @@ fun StatefulCounter(modifier: Modifier = Modifier){
     StatelessCounter(modifier,count,{count++})
 }
 
+private fun getWellnessTasks() = List(30) {i -> WellnessTask(i, "Task # $i")}
 @Composable
 fun WellnessScreen(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         StatefulCounter(modifier)
-        WellnessTasksList()
+        val list = remember{ getWellnessTasks().toMutableList()}
+        WellnessTasksList(list = list, onCloseTask = {task -> list.remove(task)})
     }
 }
 
@@ -97,11 +130,11 @@ fun WellnessTaskItem(taskName: String,
 }
 
 @Composable
-fun WellnessTaskItem(taskName:String, modifier: Modifier = Modifier){
+fun WellnessTaskItem(taskName:String, onClose:() -> Unit, modifier: Modifier = Modifier){
     var checkedState by rememberSaveable{ mutableStateOf(false)}
     WellnessTaskItem(taskName = taskName, checked = checkedState,
         onCheckedChange = {newValue -> checkedState = newValue}
-        , onClose = { }, modifier = modifier)
+        , onClose = onClose, modifier = modifier)
 }
 
 @Preview(showBackground = true, name = "WaterCounter Preview")
@@ -126,5 +159,13 @@ fun WellnessTaskItemPreview() {
 fun WellnessScreenPreview() {
     BasicStateCodelabTheme() {
         WellnessScreen()
+    }
+}*/
+
+@Preview(showBackground = true)
+@Composable
+fun HelloScreenPreview(){
+    BasicStateCodelabTheme {
+        HelloScreen()
     }
 }
