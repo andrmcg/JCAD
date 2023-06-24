@@ -16,6 +16,7 @@
 
 package com.example.reply.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -37,16 +38,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.reply.R
+import com.example.reply.data.Account
 import com.example.reply.data.Email
+import com.example.reply.data.MailboxType
 
 @Composable
 fun ReplySearchBar(modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(16.dp).background(MaterialTheme.colorScheme.background),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
@@ -130,4 +134,20 @@ fun EmailDetailAppBar(
             }
         }
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ReplySearchBarPreview() {
+    ReplySearchBar()
+}
+
+@Preview
+@Composable
+fun EmailDetailAppBarPreview() {
+    EmailDetailAppBar(email = Email(id = 1000.toLong(),
+        sender = Account(id = 1000.toLong(), uid = 1000.toLong(),"Andrew","McGregor","andrmcg@btinternet.com","amsc04010@gmail.com",R.drawable.avatar_6,true),
+        emptyList(),"Banking","You are bankrupt", emptyList(),
+        true,true,MailboxType.INBOX,"today"),
+        isFullScreen = true) {}
 }
