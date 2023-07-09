@@ -2,6 +2,7 @@ package com.example.compose.rally
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsSelected
+import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.hasAnyChild
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasContentDescriptionExactly
@@ -11,6 +12,8 @@ import androidx.compose.ui.test.onChild
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.printToLog
 import com.example.compose.rally.ui.components.RallyTopAppBar
 import com.example.compose.rally.ui.theme.RallyTheme
 import org.junit.Rule
@@ -40,4 +43,18 @@ class TopAppBarTest {
         composeTestRule.onNode(hasContentDescription(RallyScreen.Accounts.name) and hasAnyChild(
             hasText(RallyScreen.Accounts.name.uppercase())), useUnmergedTree = true).assertExists()
     }
+    @Test
+    fun selectRallyAppBarTabTest(){
+        val allScreens = RallyScreen.values().toList()
+        composeTestRule.setContent {
+            RallyTheme {
+                RallyTopAppBar(allScreens = allScreens, onTabSelected = {}, currentScreen = RallyScreen.Overview)
+            }
+        }
+
+        composeTestRule.onNodeWithContentDescription(RallyScreen.Overview.name, useUnmergedTree = true)
+            .performClick().onChild().assertTextContains("Overview".uppercase())
+
+    }
+
 }
