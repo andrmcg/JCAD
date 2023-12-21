@@ -26,9 +26,13 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Spa
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -47,7 +51,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.basiclayoutscodelab.ui.theme.BasicLayoutsCodelabTheme
+import com.example.basiclayoutscodelab.ui.theme.MySootheTheme
+import com.example.basiclayoutscodelab.ui.theme.MySootheTheme
 import com.example.basicscodelab.R
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
@@ -79,7 +84,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            BasicLayoutsCodelabTheme {
+            MySootheTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -104,6 +109,16 @@ fun HomeScreen(modifier: Modifier = Modifier){
             FavoriteCollectionsGrid()
         }
         Spacer(modifier = Modifier.height(16.dp))
+    }
+}
+
+@Composable
+fun SootheBottomNavigation(modifier: Modifier = Modifier){
+    NavigationBar(modifier = modifier, containerColor = MaterialTheme.colorScheme.surfaceVariant) {
+        NavigationBarItem(selected = true, onClick = { /*TODO*/ },
+            icon = { Icon(imageVector = Icons.Filled.Spa, contentDescription = null) })
+        NavigationBarItem(selected = false, onClick = { /*TODO*/ },
+            icon = { Icon(imageVector = Icons.Filled.AccountCircle, contentDescription = null) })
     }
 }
 
@@ -223,7 +238,7 @@ fun FavoriteCollectionsGrid(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    BasicLayoutsCodelabTheme {
+    MySootheTheme {
         HomeScreen()
     }
 }
@@ -232,15 +247,23 @@ fun GreetingPreview() {
 @Preview(showBackground = true, name = "AlignYourBodyRow")
 @Composable
 fun AlignYourBodyRowPreview() {
-    BasicLayoutsCodelabTheme {
+    MySootheTheme {
         AlignYourBodyRow()
+    }
+}
+
+@Preview(showBackground = true, name = "SootheBottomNavigation")
+@Composable
+fun SootheBottomNavigationPreview() {
+    MySootheTheme {
+        SootheBottomNavigation()
     }
 }
 
 @Preview(showBackground = true, name = "HomeSection")
 @Composable
 fun HomeSectionPreview() {
-    BasicLayoutsCodelabTheme {
+    MySootheTheme {
         HomeSection(R.string.align_your_body){
             AlignYourBodyRow()
         }
@@ -250,7 +273,7 @@ fun HomeSectionPreview() {
 @Preview(showBackground = true, name = "FavoritecollectionsGrid")
 @Composable
 fun FavoriteCollectionsGridPreview() {
-    BasicLayoutsCodelabTheme {
+    MySootheTheme {
         FavoriteCollectionsGrid()
     }
 }
@@ -258,7 +281,7 @@ fun FavoriteCollectionsGridPreview() {
 @Preview(showBackground = true, name = "FavoriteCollectionCard")
 @Composable
 fun FavoriteCollectionCardPreview() {
-    BasicLayoutsCodelabTheme {
+    MySootheTheme {
         FavoriteCollectionCard(
             modifier = Modifier.padding(8.dp),
             R.drawable.fc2_nature_meditations,
@@ -270,7 +293,7 @@ fun FavoriteCollectionCardPreview() {
 @Preview(showBackground = true, name = "Search Bar")
 @Composable
 fun SearchBarPreview() {
-    BasicLayoutsCodelabTheme {
+    MySootheTheme {
         SearchBar()
     }
 }
@@ -278,7 +301,7 @@ fun SearchBarPreview() {
 @Preview(showBackground = true, name = "Align your body element")
 @Composable
 fun AlignYourBodyElementPreview() {
-    BasicLayoutsCodelabTheme {
+    MySootheTheme {
         AlignYourBodyElement(
             text = R.string.ab1_inversions,
             drawable = R.drawable.ab1_inversions,
