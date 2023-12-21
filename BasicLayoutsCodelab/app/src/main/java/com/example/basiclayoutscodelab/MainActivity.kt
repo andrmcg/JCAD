@@ -8,7 +8,9 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,6 +20,9 @@ import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -88,16 +93,50 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun AlignYourBodyElement(@DrawableRes drawable:Int,@StringRes text:Int,modifier:Modifier = Modifier){
+fun HomeScreen(modifier: Modifier = Modifier){
+    Column(modifier) {
+        Spacer(modifier = Modifier.height(16.dp))
+        SearchBar(Modifier.padding(horizontal = 16.dp))
+        HomeSection(title = R.string.align_your_body) {
+            AlignYourBodyRow()
+        }
+        HomeSection(title = R.string.favorite_collections) {
+            FavoriteCollectionsGrid()
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+    }
+}
+
+@Composable
+fun HomeSection(@StringRes title:Int, modifier: Modifier = Modifier, content: @Composable () -> Unit){
+    Column(modifier) {
+        Text(text = stringResource(id = title), style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier
+                .paddingFromBaseline(top = 40.dp, bottom = 16.dp)
+                .padding(horizontal = 16.dp))
+        content()
+    }
+}
+
+@Composable
+fun AlignYourBodyElement(
+    @DrawableRes drawable: Int,
+    @StringRes text: Int,
+    modifier: Modifier = Modifier
+) {
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        Image(painter = painterResource(id = drawable), contentDescription = null,
+        Image(
+            painter = painterResource(id = drawable), contentDescription = null,
             contentScale = ContentScale.Crop, modifier = Modifier
                 .size(88.dp)
                 .clip(
                     CircleShape
-                ))
-        Text(text = stringResource(id = text), style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.paddingFromBaseline(top = 24.dp, bottom = 8.dp))
+                )
+        )
+        Text(
+            text = stringResource(id = text), style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.paddingFromBaseline(top = 24.dp, bottom = 8.dp)
+        )
     }
 }
 
@@ -123,21 +162,59 @@ fun SearchBar(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun FavoriteCollectionCard(modifier: Modifier = Modifier,@DrawableRes drawable:Int, @StringRes text:Int){
-    Surface(shape = MaterialTheme.shapes.medium, color = MaterialTheme.colorScheme.surfaceVariant, modifier = modifier) {
+fun FavoriteCollectionCard(
+    modifier: Modifier = Modifier,
+    @DrawableRes drawable: Int,
+    @StringRes text: Int
+) {
+    Surface(
+        shape = MaterialTheme.shapes.medium,
+        color = MaterialTheme.colorScheme.surfaceVariant,
+        modifier = modifier
+    ) {
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.width(255.dp)) {
-            Image(painter = painterResource(id = drawable),
-                contentDescription = null, contentScale = ContentScale.Crop, modifier = Modifier.size(80.dp))
-            Text(text = stringResource(id = text), style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(horizontal = 16.dp))
+            Image(
+                painter = painterResource(id = drawable),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.size(80.dp)
+            )
+            Text(
+                text = stringResource(id = text),
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
         }
     }
 }
 
 @Composable
-fun AlignYourBodyRow(modifier: Modifier = Modifier){
-    LazyRow(modifier = modifier){
-        items(alignYourBodyData){ item ->
+fun AlignYourBodyRow(modifier: Modifier = Modifier) {
+    LazyRow(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp)
+    ) {
+        items(alignYourBodyData) { item ->
             AlignYourBodyElement(drawable = item.drawable, text = item.text)
+        }
+    }
+}
+
+@Composable
+fun FavoriteCollectionsGrid(modifier: Modifier = Modifier) {
+    LazyHorizontalGrid(
+        rows = GridCells.Fixed(2), modifier = modifier.height(168.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        items(favoriteCollectionsData) { item ->
+            FavoriteCollectionCard(
+                Modifier.height(80.dp),
+                drawable = item.drawable,
+                text = item.text
+            )
         }
     }
 }
@@ -147,9 +224,10 @@ fun AlignYourBodyRow(modifier: Modifier = Modifier){
 @Composable
 fun GreetingPreview() {
     BasicLayoutsCodelabTheme {
-
+        HomeScreen()
     }
 }
+
 
 @Preview(showBackground = true, name = "AlignYourBodyRow")
 @Composable
@@ -159,11 +237,33 @@ fun AlignYourBodyRowPreview() {
     }
 }
 
+@Preview(showBackground = true, name = "HomeSection")
+@Composable
+fun HomeSectionPreview() {
+    BasicLayoutsCodelabTheme {
+        HomeSection(R.string.align_your_body){
+            AlignYourBodyRow()
+        }
+    }
+}
+
+@Preview(showBackground = true, name = "FavoritecollectionsGrid")
+@Composable
+fun FavoriteCollectionsGridPreview() {
+    BasicLayoutsCodelabTheme {
+        FavoriteCollectionsGrid()
+    }
+}
+
 @Preview(showBackground = true, name = "FavoriteCollectionCard")
 @Composable
 fun FavoriteCollectionCardPreview() {
     BasicLayoutsCodelabTheme {
-        FavoriteCollectionCard(modifier = Modifier.padding(8.dp),R.drawable.fc2_nature_meditations, R.string.fc2_nature_meditations)
+        FavoriteCollectionCard(
+            modifier = Modifier.padding(8.dp),
+            R.drawable.fc2_nature_meditations,
+            R.string.fc2_nature_meditations
+        )
     }
 }
 
@@ -179,7 +279,11 @@ fun SearchBarPreview() {
 @Composable
 fun AlignYourBodyElementPreview() {
     BasicLayoutsCodelabTheme {
-        AlignYourBodyElement(text = R.string.ab1_inversions, drawable = R.drawable.ab1_inversions, modifier = Modifier.padding(8.dp))
+        AlignYourBodyElement(
+            text = R.string.ab1_inversions,
+            drawable = R.drawable.ab1_inversions,
+            modifier = Modifier.padding(8.dp)
+        )
     }
 }
 
