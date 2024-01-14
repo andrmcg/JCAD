@@ -10,6 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.basicstatecodelab.helpers.WaterCounter
+import com.example.basicstatecodelab.screens.WellnessScreen
 import com.example.basicstatecodelab.ui.theme.BasicStateCodelabTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,6 +25,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     //  TODO Code to Start
+                    WellnessScreen()
                 }
             }
         }
@@ -33,7 +36,7 @@ class MainActivity : ComponentActivity() {
 
 @Preview(device = Devices.PIXEL_4_XL, showBackground = true, showSystemUi = true, name = "Main Screen")
 @Composable
-fun GreetingPreview() {
+fun AppPreview() {
     BasicStateCodelabTheme {
 
     }
