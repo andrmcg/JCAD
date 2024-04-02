@@ -1,5 +1,6 @@
 package com.example.basicstatecodelab.screens
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -7,12 +8,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.basicstatecodelab.helpers.WaterCounter
+import com.example.basicstatecodelab.helpers.StatefulCounter
+import com.example.basicstatecodelab.helpers.WellnessTasksList
 import com.example.basicstatecodelab.ui.theme.BasicStateCodelabTheme
 
 @Composable
 fun WellnessScreen(modifier: Modifier = Modifier){
-    WaterCounter(modifier)
+    Column(modifier = modifier) {
+        StatefulCounter()
+        WellnessTasksList()
+    }
 }
 
 
