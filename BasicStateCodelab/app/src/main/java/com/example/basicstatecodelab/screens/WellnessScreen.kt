@@ -8,15 +8,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.basicstatecodelab.helpers.StatefulCounter
 import com.example.basicstatecodelab.helpers.WellnessTasksList
+import com.example.basicstatecodelab.models.WellnessViewModel
 import com.example.basicstatecodelab.ui.theme.BasicStateCodelabTheme
 
 @Composable
-fun WellnessScreen(modifier: Modifier = Modifier){
+fun WellnessScreen(
+    modifier: Modifier = Modifier,
+    wellnessViewModel: WellnessViewModel = viewModel()
+) {
     Column(modifier = modifier) {
         StatefulCounter()
-        WellnessTasksList()
+
+        WellnessTasksList(
+            list = wellnessViewModel.tasks,
+            onCheckedTask = { task, checked ->
+                wellnessViewModel.changeTaskChecked(task, checked)
+            },
+            onCloseTask = { task ->
+                wellnessViewModel.remove(task)
+            }
+        )
     }
 }
 

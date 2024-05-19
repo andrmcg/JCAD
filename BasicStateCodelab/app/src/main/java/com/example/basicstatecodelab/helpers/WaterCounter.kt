@@ -25,7 +25,7 @@ fun StatelessCounter(count:Int, onIncrement:() -> Unit, modifier: Modifier = Mod
             Text("You've had $count glasses.")
         }
         Button(onClick = onIncrement, Modifier.padding(top = 8.dp), enabled = count < 10) {
-            Text(text = "Add one")
+            Text(text = "Add One")
         }
     }
 }
