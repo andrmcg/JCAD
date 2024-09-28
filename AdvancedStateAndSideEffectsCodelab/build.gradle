@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 /*
  * Copyright 2020 The Android Open Source Project
  *
@@ -20,9 +22,10 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.4.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.24"
-        classpath "com.google.dagger:hilt-android-gradle-plugin:2.51.1"
+        classpath "com.android.tools.build:gradle:8.6.1"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.20"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:2.52"
+        classpath "org.jetbrains.kotlin:compose-compiler-gradle-plugin:2.0.20"
     }
 }
 
@@ -47,7 +50,7 @@ subprojects {
         }
     }
 
-    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    tasks.withType(KotlinCompile).configureEach {
         kotlinOptions {
             jvmTarget = "17"
 

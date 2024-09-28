@@ -19,6 +19,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'org.jetbrains.kotlin.plugin.compose'
 }
 
 // Reads the Google maps key that is used in the AndroidManifest
@@ -29,11 +30,11 @@ if (rootProject.file("local.properties").exists()) {
 
 android {
     namespace "androidx.compose.samples.crane"
-    compileSdk = 34
+
     defaultConfig {
         applicationId "androidx.compose.samples.crane"
         minSdkVersion 21
-        targetSdk = 34
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
@@ -83,20 +84,17 @@ android {
         shaders false
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion '1.5.14'
-    }
     packagingOptions {
-        resources {
-            excludes += ['/META-INF/AL2.0', '/META-INF/LGPL2.1']
-        }
+        // Multiple dependency bring these files in. Exclude them to enable
+        // our test APK to build (has no effect on our AARs)
+        excludes += "/META-INF/AL2.0"
+        excludes += "/META-INF/LGPL2.1"
     }
-    buildToolsVersion = '35.0.0-rc4'
-
+    buildToolsVersion '34.0.0'
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1"
     implementation "com.google.android.libraries.maps:maps:3.1.0-beta"
     implementation "com.google.maps.android:maps-v3-ktx:3.4.0"
     constraints {
@@ -106,10 +104,11 @@ dependencies {
         }
     }
 
-    implementation "androidx.activity:activity-compose:1.9.0"
+    implementation "androidx.activity:activity-compose:1.9.2"
     implementation "androidx.appcompat:appcompat:1.7.0"
+    implementation "androidx.tracing:tracing:1.2.0"
 
-    def composeBom = platform('androidx.compose:compose-bom:2024.05.00')
+    def composeBom = platform('androidx.compose:compose-bom:2024.09.02')
     implementation(composeBom)
     androidTestImplementation(composeBom)
     implementation "androidx.compose.runtime:runtime"
@@ -122,22 +121,22 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling"
     debugImplementation "androidx.compose.ui:ui-test-manifest"
 
-    def lifecycle_version = "2.8.1"
+    def lifecycle_version = "2.8.6"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    implementation "com.google.dagger:hilt-android:2.51.1"
-    kapt "com.google.dagger:hilt-compiler:2.51.1"
+    implementation "com.google.dagger:hilt-android:2.52"
+    kapt "com.google.dagger:hilt-compiler:2.52"
 
-    implementation "io.coil-kt:coil-compose:2.6.0"
+    implementation "io.coil-kt:coil-compose:2.7.0"
 
     androidTestImplementation "junit:junit:4.13.2"
-    androidTestImplementation "androidx.test:core:1.5.0"
-    androidTestImplementation "androidx.test:runner:1.5.2"
-    androidTestImplementation "androidx.test:rules:1.5.0"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
-    androidTestImplementation "androidx.test.ext:junit-ktx:1.1.5"
-    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0"
-    androidTestImplementation "com.google.dagger:hilt-android:2.51.1"
-    androidTestImplementation "com.google.dagger:hilt-android-testing:2.51.1"
-    kaptAndroidTest "com.google.dagger:hilt-compiler:2.51.1"
+    androidTestImplementation "androidx.test:core:1.6.1"
+    androidTestImplementation "androidx.test:runner:1.6.2"
+    androidTestImplementation "androidx.test:rules:1.6.1"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.6.1"
+    androidTestImplementation "androidx.test.ext:junit-ktx:1.2.1"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1"
+    androidTestImplementation "com.google.dagger:hilt-android:2.52"
+    androidTestImplementation "com.google.dagger:hilt-android-testing:2.52"
+    kaptAndroidTest "com.google.dagger:hilt-compiler:2.52"
 }
